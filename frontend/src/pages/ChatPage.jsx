@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3001"); // Your Node.js Socket.io server
+// ✅ Get token from localStorage
+const token = localStorage.getItem("token");
+
+// ✅ Connect to socket with token in auth handshake
+const socket = io("http://localhost:3001", {
+  auth: { token },
+});
 
 function ChatPage() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [username] = useState("User" + Math.floor(Math.random() * 1000));
+  //const [username] = useState("User" + Math.floor(Math.random() * 1000));
 
   useEffect(() => {
     socket.on("chatMessage", (data) => {
@@ -20,10 +26,11 @@ function ChatPage() {
 
   const sendMessage = () => {
     if (message.trim()) {
-      socket.emit("chatMessage", { username, message });
+      socket.emit("chatMessage", message); // ✅ Send just text
       setMessage("");
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-background">

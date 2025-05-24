@@ -1,7 +1,7 @@
-import ChatPage from '@/pages/ChatPage';
+import VideoCallPage from './pages/VideoCallPage';
 
 function App() {
-  return <ChatPage />;
+  return <VideoCallPage />;
 }
 
 export default App;
