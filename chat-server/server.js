@@ -1,67 +1,59 @@
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
 const { Server } = require('socket.io');
-
-const JWT_SECRET="kfzT7WLh52oXvDFQabFzJxMmG3eNt8qz";
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+
+const SECRET = 'your_secret_key';
+const usersDB = {}; // In-memory user store
+
+// Register new users
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ message: 'Username and password required' });
+  if (usersDB[username]) return res.status(409).json({ message: 'User already exists' });
+  usersDB[username] = password;
+  return res.status(201).json({ message: 'User registered successfully' });
+});
+
+// Login with JWT
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (usersDB[username] && usersDB[username] === password) {
+    const token = jwt.sign({ username }, SECRET, { expiresIn: '1h' });
+    return res.json({ token });
+  }
+  res.status(401).json({ message: 'Invalid credentials' });
+});
 
 const server = http.createServer(app);
-
 const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
+  cors: { origin: '*', methods: ['GET', 'POST'] }
 });
 
-// 🔐 JWT validation middleware
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
-  if (!token) {
-    return next(new Error("No token provided"));
-  }
-
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    socket.user = decoded.sub; // assuming "sub" holds username
+    const payload = jwt.verify(token, SECRET);
+    socket.user = payload.username;
     next();
   } catch (err) {
-    return next(new Error("Invalid token"));
+    next(new Error('Authentication error'));
   }
 });
-
-// 🌐 Chat logic
-io.on('connection', (socket) => {
-  console.log(`🟢 User connected: ${socket.user}`);
-
-  socket.on('chatMessage', (text) => {
-    const msg = {
-      username: socket.user,
-      message: text
-    };
-    io.emit('chatMessage', msg);
-  });
-
-  socket.on('disconnect', () => {
-    console.log(`🔴 ${socket.user} disconnected`);
-  });
-});
-
-const PORT = 3001;
-server.listen(PORT, () => {
-  console.log(`🔐 Secure chat server running on port ${PORT}`);
-});
-
 
 const users = {};
 
 io.on('connection', (socket) => {
-  users[socket.id] = socket;
-  socket.emit('your-id', socket.id);
+  const socketId = socket.id;
+  users[socketId] = socket;
+
+  socket.emit('your-id', socketId);
+  io.emit('all-users', Object.keys(users).filter(id => id !== socketId));
 
   socket.on('call-user', ({ userToCall, signalData, from }) => {
     if (users[userToCall]) {
@@ -75,7 +67,14 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('send-message', ({ message, from }) => {
+    socket.broadcast.emit('receive-message', { message, from });
+  });
+
   socket.on('disconnect', () => {
-    delete users[socket.id];
+    delete users[socketId];
+    io.emit('all-users', Object.keys(users));
   });
 });
+
+server.listen(3001, () => console.log('🚀 Server running on http://localhost:3001'));

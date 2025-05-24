@@ -1,7 +1,9 @@
 package com.tradebridge.backend.controllers;
 
 import com.tradebridge.backend.dtos.*;
+import com.tradebridge.backend.models.AuditLog;
 import com.tradebridge.backend.models.User;
+import com.tradebridge.backend.repositories.AuditLogRepository;
 import com.tradebridge.backend.repositories.UserRepository;
 import com.tradebridge.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class AuthController {
     @Autowired private JwtUtil jwtUtil;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private UserRepository userRepo;
+
+    // ✅ Inject AuditLogRepository
+    @Autowired private AuditLogRepository auditRepo;
 
     @PostMapping("/register")
     public String register(@RequestBody AuthRequest request) {
@@ -40,6 +45,13 @@ public class AuthController {
 
         final var userDetails = userService.loadUserByUsername(request.getUsername());
         final String token = jwtUtil.generateToken(userDetails);
+
+        // ✅ Log successful login
+        AuditLog log = new AuditLog();
+        log.setType("LOGIN");
+        log.setFromUser(request.getUsername());
+        auditRepo.save(log);
+
         return new AuthResponse(token);
     }
 }
