@@ -11,11 +11,12 @@ function TradeUploadPage({ token }) {
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:3001/api/trades/upload", formData, {
+      await axios.post("http://localhost:8080/api/trades/upload", formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage("✅ Upload successful");
     } catch (err) {
+      console.error("Upload failed:", err);
       setMessage("❌ Upload failed");
     }
   };

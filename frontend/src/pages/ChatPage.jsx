@@ -1,36 +1,47 @@
-import { useEffect, useState } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useRef, useState } from "react";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
-// ✅ Get token from localStorage
+const WS_URL = "http://localhost:8080/ws";
 const token = localStorage.getItem("token");
-
-// ✅ Connect to socket with token in auth handshake
-const socket = io("http://localhost:3001", {
-  auth: { token },
-});
 
 function ChatPage() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  //const [username] = useState("User" + Math.floor(Math.random() * 1000));
+  const clientRef = useRef(null);
 
   useEffect(() => {
-    socket.on("chatMessage", (data) => {
-      setMessages((prev) => [...prev, data]);
+    const socket = new SockJS(WS_URL);
+    const client = new Client({
+      webSocketFactory: () => socket,
+      connectHeaders: { Authorization: `Bearer ${token}` },
+      onConnect: () => {
+        console.log("✅ Connected to chat");
+        client.subscribe("/topic/chat", (msg) => {
+          const data = JSON.parse(msg.body);
+          setMessages((prev) => [...prev, data]);
+        });
+      },
     });
 
+    client.activate();
+    clientRef.current = client;
+
     return () => {
-      socket.off("chatMessage");
+      client.deactivate();
     };
   }, []);
 
   const sendMessage = () => {
     if (message.trim()) {
-      socket.emit("chatMessage", message); // ✅ Send just text
+      clientRef.current.publish({
+        destination: "/app/chat",
+        body: JSON.stringify({ message }),
+      });
+      setMessages((prev) => [...prev, { username: "You", message }]);
       setMessage("");
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-background">
@@ -53,7 +64,7 @@ function ChatPage() {
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
           <button
-            className="px-4 py-2 text-white rounded bg-primary"
+            className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
             onClick={sendMessage}
           >
             Send

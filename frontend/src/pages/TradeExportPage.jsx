@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CSVLink } from 'react-csv';
 
+const API_BASE = "http://localhost:8080";
+
 function TradeExportPage({ token }) {
   const [trades, setTrades] = useState([]);
 
   useEffect(() => {
     const fetchTrades = async () => {
       try {
-        const res = await axios.get("http://localhost:3001/api/trades", {
+        const res = await axios.get(`${API_BASE}/api/trades`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTrades(res.data);

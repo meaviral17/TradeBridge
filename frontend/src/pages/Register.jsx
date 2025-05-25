@@ -8,8 +8,11 @@ function Register({ goToLogin }) {
 
   const register = async () => {
     try {
-      const res = await axios.post('http://localhost:3001/register', { username, password });
-      setMessage('✅ ' + res.data.message);
+      await axios.post('http://localhost:8080/api/auth/register', {
+        username,
+        password
+      });
+      setMessage('✅ User registered. You can now log in.');
     } catch (err) {
       setMessage('❌ ' + (err.response?.data?.message || 'Registration failed'));
     }

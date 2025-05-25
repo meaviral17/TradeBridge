@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login({ setToken, goToRegister }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
-      const res = await axios.post('http://localhost:3001/login', { username, password });
+      const res = await axios.post('http://localhost:8080/api/auth/login', {
+        username,
+        password
+      });
       localStorage.setItem('token', res.data.token);
       setToken(res.data.token);
+      navigate('/chart'); // ✅ Redirect to default protected page
     } catch (err) {
       console.error('Login error:', err);
-      alert('Invalid credentials');
+      alert('❌ Invalid credentials');
     }
   };
 
