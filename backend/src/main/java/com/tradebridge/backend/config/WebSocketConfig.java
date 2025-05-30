@@ -9,15 +9,15 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic"); // Broadcast destination prefix
-        config.setApplicationDestinationPrefixes("/app"); // Client sends here
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws") // WebSocket endpoint
+                .setAllowedOrigins("http://localhost:5173") // Allow frontend origin
+                .withSockJS(); // Fallback options for browsers that don’t support WebSocket
     }
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws") // WebSocket endpoint
-                .setAllowedOriginPatterns("*")
-                .withSockJS(); // Enables fallback for older browsers
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic"); // Prefix for outgoing messages
+        registry.setApplicationDestinationPrefixes("/app"); // Prefix for messages bound for @MessageMapping
     }
 }

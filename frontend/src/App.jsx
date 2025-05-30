@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
 import VideoCallPage from './pages/VideoCallPage';
-import TradeUploadPage from './pages/TradeUploadPage';
 import TradeChartPage from './pages/TradeChartPage';
-import TradeExportPage from './pages/TradeExportPage';
-import ChatPage from './Pages/ChatPage'; // ✅ Correct
+import TradeManagePage from './pages/TradeManagePage';
+import ChatPage from './pages/ChatPage';
+import LobbyPage from './components/LobbyPage';
+import RoomPage from './components/RoomPage';
 
-import './index.css'; // ✅ Ensure Tailwind is imported
+import './index.css';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [darkMode, setDarkMode] = useState(false);
+  const username = 'alice'; // Replace with actual user logic
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
@@ -34,9 +36,10 @@ function App() {
               <>
                 <Link to="/chat" className="hover:underline">Chat</Link>
                 <Link to="/video" className="hover:underline">Video Call</Link>
-                <Link to="/upload" className="hover:underline">Upload</Link>
+                <Link to="/lobby" className="hover:underline">Rooms</Link>
+                <Link to="/manage" className="hover:underline">Manage Trades</Link>
                 <Link to="/chart" className="hover:underline">Chart</Link>
-                <Link to="/export" className="hover:underline">Export</Link>
+                
               </>
             )}
           </div>
@@ -58,14 +61,23 @@ function App() {
           <Route path="/register" element={<Register goToLogin={() => window.location.href = '/login'} />} />
           <Route path="/chat" element={token ? <ChatPage /> : <Navigate to="/login" />} />
           <Route path="/video" element={token ? <VideoCallPage token={token} /> : <Navigate to="/login" />} />
-          <Route path="/upload" element={token ? <TradeUploadPage token={token} /> : <Navigate to="/login" />} />
+          <Route path="/lobby" element={token ? <LobbyPage token={token} username={username} /> : <Navigate to="/login" />} />
+          <Route path="/room/:roomId" element={token ? <RoomPageWrapper token={token} username={username} /> : <Navigate to="/login" />} />
+          <Route path="/manage" element={token ? <TradeManagePage token={token} /> : <Navigate to="/login" />} />
           <Route path="/chart" element={token ? <TradeChartPage token={token} /> : <Navigate to="/login" />} />
-          <Route path="/export" element={token ? <TradeExportPage token={token} /> : <Navigate to="/login" />} />
           <Route path="*" element={<h2 className="p-6">404 - Not Found</h2>} />
         </Routes>
       </div>
     </Router>
   );
+}
+
+// Wrapper for dynamic Room state
+function RoomPageWrapper({ token, username }) {
+  const location = useLocation();
+  const { videoClient, chatClient } = location.state || {};
+  if (!videoClient || !chatClient) return <Navigate to="/lobby" />;
+  return <RoomPage videoClient={videoClient} chatClient={chatClient} token={token} username={username} />;
 }
 
 export default App;

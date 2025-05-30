@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@stream-io/video-client": "^1.23.2",
+    "@stream-io/video-react-sdk": "^1.18.1",
+    "react-router-dom": "^7.6.1",
+    "stream-chat": "^9.3.0"
+  }
+}

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface TradeRepository extends JpaRepository<Trade, Long> {
     List<Trade> findByUser(User user);
+    void deleteAllByUser(User user);
+
 }

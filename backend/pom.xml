@@ -36,11 +36,9 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-
-    <!-- ✅ WebSocket Support -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-websocket</artifactId>
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
 
     <!-- ✅ PostgreSQL DB -->
@@ -49,6 +47,13 @@
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>io.getstream</groupId>
+      <artifactId>stream-chat-java</artifactId>
+      <version>1.29.0</version>
+    </dependency>
+
+
 
     <!-- ✅ JWT Support -->
     <dependency>
@@ -68,7 +73,6 @@
       <version>0.11.5</version>
       <scope>runtime</scope>
     </dependency>
-
     <!-- ✅ CSV Parsing -->
     <dependency>
       <groupId>com.opencsv</groupId>

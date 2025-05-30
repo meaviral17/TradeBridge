@@ -27,13 +27,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults()) // ✅ Enable CORS
+            .cors(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()   // ✅ allow login & register
-                .requestMatchers("/api/trades/price/**").permitAll() // ✅ allow public price API
-                .requestMatchers("/ws/**").permitAll()         // ✅ WebSocket endpoints
-                .anyRequest().authenticated()                 // 🔒 everything else secured
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/trades/price/**").permitAll()
+                .requestMatchers("/api/trades/price/**").permitAll()
+                .requestMatchers("/api/demo/**").permitAll() // ✅ Allow demo endpoints
+                .anyRequest().authenticated()
             );
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -51,14 +52,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ CORS Configuration (e.g., allow frontend from localhost:5173)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // frontend dev port
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
+        
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
