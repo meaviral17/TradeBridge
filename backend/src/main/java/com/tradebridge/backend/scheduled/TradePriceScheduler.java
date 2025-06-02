@@ -31,7 +31,7 @@ public class TradePriceScheduler {
     // 🔁 Runs every 10 minutes
     @Scheduled(fixedRate = 600_000)
     public void fetchAndStore() {
-        List<String> symbols = List.of("AAPL", "GOOGL", "TSLA");
+        List<String> symbols = List.of("IBM", "AMD", "ORCL");
         RestTemplate restTemplate = new RestTemplate();
         List<User> users = userRepo.findAll();
 

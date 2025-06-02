@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/trades/price/**").permitAll()
                 .requestMatchers("/api/trades/price/**").permitAll()
+                .requestMatchers("/api/news/**").permitAll()
                 .requestMatchers("/api/demo/**").permitAll() // ✅ Allow demo endpoints
                 .anyRequest().authenticated()
             );

@@ -30,8 +30,9 @@ public class JwtFilter extends OncePerRequestFilter {
     // List of paths to skip JWT validation on
     private static final List<String> skipUrls = List.of(
         "/api/auth", "/api/auth/", "/api/auth/login", "/api/auth/register",
-        "/api/trades/price"
+        "/api/trades/price", "/api/news"
     );
+    
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

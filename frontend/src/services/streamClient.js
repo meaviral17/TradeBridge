@@ -1,20 +1,30 @@
 import { StreamVideoClient } from '@stream-io/video-react-sdk';
 import { StreamChat } from 'stream-chat';
-import { getStreamToken } from './streamToken'; // ✅ adjust the path if needed
+import { getStreamToken } from './streamToken'; // ✅ Adjust path if needed
 
-const apiKey = "d7aeudqjk8n9"; // ✅ Your real key from application.properties
+const apiKey = import.meta.env.VITE_STREAM_API_KEY || "d7aeudqjk8n9"; // fallback to default
 
 export const initStream = async (jwtToken) => {
-  const { token, userId } = await getStreamToken(jwtToken);
+  try {
+    const { token, userId } = await getStreamToken(jwtToken);
 
-  const chatClient = new StreamChat(apiKey);
-  await chatClient.connectUser({ id: userId, name: userId }, token);
+    // ✅ Chat client
+    const chatClient = StreamChat.getInstance(apiKey);
+    await chatClient.connectUser(
+      { id: userId, name: userId },
+      token
+    );
 
-  const videoClient = new StreamVideoClient({
-    apiKey,
-    user: { id: userId, name: userId },
-    token,
-  });
+    // ✅ Video client
+    const videoClient = new StreamVideoClient({
+      apiKey,
+      user: { id: userId, name: userId },
+      token,
+    });
 
-  return { videoClient, chatClient, userId };
+    return { videoClient, chatClient, userId };
+  } catch (error) {
+    console.error("❌ Failed to initialize Stream:", error);
+    throw error;
+  }
 };

@@ -1,0 +1,43 @@
+# Node modules (for frontend)
+node_modules/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# Java build files
+target/
+bin/
+out/
+
+# Spring Boot config
+src/main/resources/application.properties
+src/main/resources/application.yml
+src/main/resources/application-dev.properties
+src/main/resources/application-prod.properties
+
+# IDE & system files
+*.log
+*.tmp
+.DS_Store
+*.iml
+.idea/
+.vscode/
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Optional: Ignore uploads or generated CSVs if any
+uploads/
+*.csv
+
+# VS Code settings (optional)
+.vscode/
+
+# macOS specific
+.DS_Store
