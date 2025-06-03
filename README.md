@@ -1,168 +1,161 @@
-# 🧠 TradeBridge
+# 📊 TradeBridge
 
-**TradeBridge** is an AI-powered full-stack stock analytics platform built for traders and investors to **track**, **analyze**, and **visualize** their trading data while also getting **real-time financial news**, **interactive video meetings**, and **dashboard insights** — all in one unified interface.
-
----
-
-## 🚀 Features
-
-### 📊 Trade Analytics Dashboard
-
-* Upload and manage CSV trade records
-* Dynamic filtering by stock symbols
-* Real-time charting:
-
-  * Line chart: price over time
-  * Bar chart: quantity over time
-  * Scatter plot: price vs quantity
-  * Pie chart: quantity share by symbol
-* Auto-generated trade summary: total trades, most traded symbol, highest price, etc.
-* CSV download of filtered data
-
-### 🌐 Global Stock Market Tracker
-
-* View latest price trends for selected big-tech stocks (e.g., AAPL, GOOGL, TSLA)
-* Real-time news feed from **NewsData.io** based on selected stock symbol
-* Auto-cache to reduce API load and improve performance
-
-### 🧑‍💼 Unified Meeting System
-
-* Integrated **Jitsi Meet** for video conferences
-* Fully embedded meetings with camera/audio controls
-* Auto-generated meeting room per session
-
-### 🎨 Beautiful UI/UX
-
-* Animated **particle background**
-* Responsive dashboard layout
-* TailwindCSS styled components
-* Minimal dark theme interface
+**TradeBridge** is a comprehensive, full-stack trading analysis and collaboration platform that empowers users to perform in-depth trade reviews, monitor global financial markets, and collaborate in real-time through secure virtual meeting rooms. It is purpose-built for financial analysts, traders, and investment teams to make data-driven decisions with confidence.
 
 ---
 
-## 🧰 Tech Stack
+## 🌍 Live Application
 
-### Frontend
-
-* **React.js**
-* **Tailwind CSS**
-* **Chart.js** via `react-chartjs-2`
-* **react-router-dom**
-* **dayjs** (time formatting)
-* **react-csv** (data export)
-* **tsparticles** (background animation)
-* **axios**
-
-### Backend
-
-* **Spring Boot**
-* **Spring Security (JWT Auth)**
-* **PostgreSQL**
-* **Apache POI** (CSV parsing)
-* **Spring Web**
-* **JPA/Hibernate**
+* **Frontend**: [https://tradebridgenow.vercel.app](https://tradebridgenow.vercel.app)
+* **Backend**: [https://tradebridge.onrender.com](https://tradebridge.onrender.com)
 
 ---
 
-## 🔐 Authentication
+## 🚀 Key Features
 
-* **JWT-based authentication**
-* Login/Register endpoints
-* User-level access control for APIs
+### ✅ Virtual Meeting Rooms
 
----
+* Fully embedded **video conferencing** via [Jitsi](https://jitsi.org/)
+* Capabilities include:
 
-## 🌐 External APIs Used
-
-| API           | Purpose                               | Key/Notes                    |
-| ------------- | ------------------------------------- | ---------------------------- |
-| `NewsData.io` | Real-time news feed for stock symbols | Free plan with rate limiting |
-| `Jitsi Meet`  | Embedded video meeting (iframe-based) | No API key needed            |
+  * 📹 Video + 🎤 Audio
+  * 🖥️ Screen sharing
+  * ✍️ Whiteboard collaboration
+* Ideal for real-time team discussions or strategy reviews.
 
 ---
 
-## 📂 Directory Structure
+### ✅ CSV-Based Trade Analyzer
+
+Upload and analyze trade data in `.csv` format to generate a rich, visual dashboard:
+
+* **Price Trend Graphs** — Analyze average trade prices over time
+* **Profit/Loss Distribution** — Visualize trade performance and risk patterns
+* **Trade Frequency Timeline** — Identify activity spikes or trading gaps
+* **Symbol-Level Analysis** — Evaluate instrument-specific performance
+
+> Includes support for uploading new CSVs, downloading filtered datasets, and modifying records — making it especially useful for analysts and backtesters.
+
+---
+
+### ✅ Market Intelligence Dashboard
+
+* **Live Market Prices** using [Twelve Data API](https://twelvedata.com/)
+* **Real-Time News Feed** from curated financial news sources
+* Helps users correlate macro events with trading decisions
+
+---
+
+## 🛠️ Tech Stack
+
+### 🔧 Backend — Spring Boot
+
+* Java 17
+* Spring Security (JWT-based authentication)
+* Spring Data JPA
+* PostgreSQL (via Supabase)
+* Deployed on Render with Docker
+
+### 💻 Frontend — React + Vite
+
+* React 18, Vite
+* React Router, Tailwind CSS
+* Chart.js for interactive data visualizations
+* Axios for API calls
+* Deployed on Vercel
+
+### 📡 Integrations
+
+* **[Stream.io](https://getstream.io/)** — Real-time chat and video streaming
+* **[Twelve Data](https://twelvedata.com/)** — Stock price feeds
+* **[Jitsi Meet](https://jitsi.org/)** — Secure video conferencing
+
+---
+
+## 🔌 API Overview
+
+### Internal Endpoints
+
+| Method | Endpoint             | Description                              |
+| ------ | -------------------- | ---------------------------------------- |
+| POST   | `/api/auth/register` | User registration                        |
+| POST   | `/api/auth/login`    | User authentication                      |
+| GET    | `/api/stream/token`  | Generates Stream.io token for chat/video |
+| POST   | `/api/trades/upload` | Upload and parse CSV                     |
+| GET    | `/api/trades/all`    | Fetch all trades for a user              |
+| GET    | `/api/trades/price`  | Current stock price lookup               |
+| POST   | `/api/trades/edit`   | Modify existing trade entries            |
+| GET    | `/api/news/global`   | Fetch latest market news                 |
+| GET    | `/api/demo/trades`   | Load dummy trade data                    |
+
+### External APIs
+
+| API Name    | Use Case                  | Auth           |
+| ----------- | ------------------------- | -------------- |
+| Stream.io   | Chat + Video SDK          | API Key, Token |
+| Twelve Data | Live market price feed    | API Key        |
+| Jitsi Meet  | Embedded meet/video rooms | Anonymous      |
+
+---
+
+## 🗂 Project Structure
 
 ```
-tradebridge/
-│
-├── backend/ (Spring Boot)
-│   ├── controller/
-│   ├── model/
-│   ├── repository/
-│   ├── service/
-│   └── TradebridgeApplication.java
-│
-├── frontend/ (React App)
-│   ├── pages/
-│   ├── components/
-│   ├── App.jsx
-│   └── index.css
+.
+├── backend/
+│   └── src/
+│       ├── controller/         # REST Controllers
+│       ├── model/              # Entity classes
+│       ├── service/            # Business logic
+│       ├── repository/         # JPA repositories
+│       └── config/             # Security and CORS
+├── frontend/
+│   └── src/
+│       ├── components/         # Reusable UI components
+│       ├── pages/              # Page-level views
+│       ├── hooks/              # Custom React hooks
+│       └── App.jsx             # Main React app
+├── docker/
+│   └── Dockerfile              # Backend Dockerfile
+├── README.md
 ```
 
 ---
 
-## 🔁 API Endpoints
+## ⚙️ Deployment
 
-### 🔒 Auth
+### Backend (Render)
 
-| Method | Endpoint             | Description            |
-| ------ | -------------------- | ---------------------- |
-| POST   | `/api/auth/login`    | Login with credentials |
-| POST   | `/api/auth/register` | Register a new user    |
+* Docker-based deployment
+* Environment variables set via Render Dashboard:
 
----
+  ```env
+  DB_URL=...
+  DB_USER=...
+  DB_PASS=...
+  STREAM_API_KEY=...
+  STREAM_API_SECRET=...
+  STREAM_APP_ID=...
+  TWELVEDATA_API_KEY=...
+  ```
 
-### 📦 Trades
+### Frontend (Vercel)
 
-| Method | Endpoint                     | Description                   |
-| ------ | ---------------------------- | ----------------------------- |
-| GET    | `/api/trades`                | Fetch all trades for user     |
-| DELETE | `/api/trades`                | Delete all user trade records |
-| POST   | `/api/demo/upload-csv`       | Upload CSV of trades          |
-| GET    | `/api/trades/price/{symbol}` | Get price history of a symbol |
+* `.env` for Vite build:
 
----
-
-### 📰 News (Proxy call)
-
-| Method | Endpoint                | Description                                     |
-| ------ | ----------------------- | ----------------------------------------------- |
-| GET    | `/api/news?symbol=AAPL` | Fetch news for a given symbol using NewsData.io |
-
----
-
-## 🗂️ Sample CSV Format
-
-| symbol | price  | quantity | timestamp           |
-| ------ | ------ | -------- | ------------------- |
-| AAPL   | 176.22 | 10       | 2024-06-01 12:23:00 |
-| TSLA   | 234.90 | 15       | 2024-06-01 13:03:00 |
+  ```env
+  VITE_API_BASE=...
+  VITE_STREAM_API_KEY=...
+  VITE_STREAM_SECRET=...
+  ```
 
 ---
 
-## 🧪 Local Setup
+## 📈 Potential Enhancements
 
-```bash
-# Clone the repo
-git clone https://github.com/yourname/tradebridge.git
-
-# Frontend
-cd frontend
-npm install
-npm run dev
-
-# Backend
-cd backend
-mvn spring-boot:run
-```
-
-> PostgreSQL should be running with a `trades` and `users` table configured.
+* Google OAuth integration
+* WebSocket support for live P\&L updates
+* AI-powered trade recommendations
+* Real-time collaborative CSV annotation
 
 ---
-
-## 🧑‍🎓 Credits
-
-Made with ❤️ by **Aviral Srivastava**
-[![GitHub](https://img.shields.io/badge/GitHub-Aviral--Srivastava-blue?logo=github)](https://github.com/meaviral17)
-
