@@ -1,11 +1,12 @@
-# Use an official JDK runtime as a parent image
-FROM eclipse-temurin:17-jdk
-
-# Set the working directory inside the container
+# Use Maven image to build the JAR
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the built JAR file (only after it's built locally or in CI)
-COPY target/*.jar app.jar
-
-# Run the JAR file
+# Use smaller image for running the JAR
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
