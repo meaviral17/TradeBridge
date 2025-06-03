@@ -10,7 +10,7 @@
 
 #### 1. Virtual Meeting Rooms
 
-* Fully embedded **video conferencing** via [Jitsi](https://jitsi.org/)
+* Fully embedded **video conferencing** via utilizing WebRTC.
 * Capabilities include:
 
   * 📹 Video + 🎤 Audio
