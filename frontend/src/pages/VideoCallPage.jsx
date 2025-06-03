@@ -19,7 +19,7 @@ function VideoCallPage() {
       if (!jwt) return alert("No token found");
 
       try {
-        const res = await axios.get("http://localhost:8080/api/stream/token", {
+        const res = await axios.get("https://tradebridge.onrender.com/api/stream/token", {
           headers: { Authorization: `Bearer ${jwt}` }
         });
 

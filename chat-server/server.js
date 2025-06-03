@@ -77,4 +77,4 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(8080, () => console.log('🚀 Server running on http://localhost:8080'));
+server.listen(8080, () => console.log('🚀 Server running on https://tradebridge.onrender.com'));

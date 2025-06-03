@@ -12,7 +12,7 @@ function Register({ goToLogin }) {
 
   const register = async () => {
     try {
-      await axios.post('http://localhost:8080/api/auth/register', { username, password });
+      await axios.post('https://tradebridge.onrender.com/api/auth/register', { username, password });
       setMessage('✅ User registered. You can now log in.');
     } catch (err) {
       setMessage('❌ ' + (err.response?.data?.message || 'Registration failed'));

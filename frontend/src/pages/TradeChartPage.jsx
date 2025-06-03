@@ -24,7 +24,7 @@ function TradeChartPage() {
       setLoading(false);
     } else {
       try {
-        const res = await axios.get(`http://localhost:8080/api/trades/price/${symbol}`);
+        const res = await axios.get(`https://tradebridge.onrender.com/api/trades/price/${symbol}`);
         const reversed = res.data.reverse();
         setData(reversed);
         CACHE.set(symbol, reversed);

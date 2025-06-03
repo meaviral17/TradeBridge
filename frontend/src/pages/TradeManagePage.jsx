@@ -27,7 +27,7 @@ function TradeManagePage({ token }) {
 
   const fetchTrades = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:8080/api/trades', {
+      const res = await axios.get('https://tradebridge.onrender.com/api/trades', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTrades(res.data);
@@ -54,7 +54,7 @@ function TradeManagePage({ token }) {
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
-      await axios.post('http://localhost:8080/api/demo/upload-csv', formData, {
+      await axios.post('https://tradebridge.onrender.com/api/demo/upload-csv', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -69,7 +69,7 @@ function TradeManagePage({ token }) {
 
   const handleDeleteAll = async () => {
     try {
-      await axios.delete('http://localhost:8080/api/trades', {
+      await axios.delete('https://tradebridge.onrender.com/api/trades', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTrades([]);

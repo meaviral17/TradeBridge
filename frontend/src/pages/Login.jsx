@@ -13,7 +13,7 @@ function Login({ setToken, goToRegister }) {
 
   const login = async () => {
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/login', {
+      const res = await axios.post('https://tradebridge.onrender.com/api/auth/login', {
         username,
         password
       });

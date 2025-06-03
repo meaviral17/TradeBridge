@@ -4,7 +4,7 @@ import Stomp from 'stompjs';
 let stompClient = null;
 
 export const connectWebSocket = (onMessageReceived) => {
-  const socket = new SockJS('http://localhost:8080/ws');
+  const socket = new SockJS('https://tradebridge.onrender.com/ws');
   stompClient = Stomp.over(socket);
 
   stompClient.connect({}, (frame) => {

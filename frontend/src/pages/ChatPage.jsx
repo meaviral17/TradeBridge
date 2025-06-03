@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
-const WS_URL = "http://localhost:8080/ws";
+const WS_URL = "https://tradebridge.onrender.com/ws";
 const token = localStorage.getItem("token");
 
 function ChatPage() {

@@ -11,7 +11,7 @@ function TradeUploadPage({ token }) {
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:8080/api/trades/upload", formData, {
+      await axios.post("https://tradebridge.onrender.com/api/trades/upload", formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage("✅ Upload successful");

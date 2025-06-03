@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CSVLink } from 'react-csv';
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://tradebridge.onrender.com";
 
 function TradeExportPage({ token }) {
   const [trades, setTrades] = useState([]);
