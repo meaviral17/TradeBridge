@@ -1,6 +1,5 @@
 package com.tradebridge.backend.controllers;
 
-import com.opencsv.CSVReader;
 import com.tradebridge.backend.models.Trade;
 import com.tradebridge.backend.models.User;
 import com.tradebridge.backend.repositories.TradeRepository;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController

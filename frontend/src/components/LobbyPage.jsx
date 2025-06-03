@@ -13,7 +13,7 @@ const parseJwt = (token) => {
       window
         .atob(base64)
         .split('')
-        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
     );
     return JSON.parse(jsonPayload);
@@ -37,32 +37,44 @@ function LobbyPage({ token }) {
 
     if (!userId) {
       alert("⚠️ Invalid token or user not found");
+      setLoading(false);
       return;
     }
 
-    // Fetch Stream token securely
-    const res = await axios.get('https://tradebridge.onrender.com/api/stream/token', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    try {
+      // Securely fetch Stream token from backend
+      const res = await axios.get('https://tradebridge.onrender.com/api/stream/token', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    const { token: streamToken } = res.data;
-    const apiKey = 'd7aeudqjk8n9';
+      const { token: streamToken } = res.data;
+      const apiKey = 'd7aeudqjk8n9';
 
-    // Setup Stream clients
-    const chatClient = new StreamChat(apiKey);
-    await chatClient.connectUser({ id: userId, name: userId }, streamToken);
+      // ✅ Correct StreamChat client setup
+      const chatClient = StreamChat.getInstance(apiKey);
+      await chatClient.connectUser(
+        { id: userId, name: userId },
+        streamToken
+      );
 
-    const videoClient = new StreamVideoClient({
-      apiKey,
-      user: { id: userId, name: userId },
-      token: streamToken
-    });
+      // Video client setup
+      const videoClient = new StreamVideoClient({
+        apiKey,
+        user: { id: userId, name: userId },
+        token: streamToken
+      });
 
-    navigate(`/room/${roomId}`, {
-      state: { videoClient, chatClient }
-    });
+      navigate(`/room/${roomId}`, {
+        state: { videoClient, chatClient }
+      });
+    } catch (err) {
+      console.error("Failed to join room:", err);
+      alert("❌ Failed to join room. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

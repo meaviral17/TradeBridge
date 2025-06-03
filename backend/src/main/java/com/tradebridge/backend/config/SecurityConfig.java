@@ -1,6 +1,5 @@
 package com.tradebridge.backend.config;
 
-import com.tradebridge.backend.config.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,9 +31,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/trades/price/**").permitAll()
-                .requestMatchers("/api/trades/price/**").permitAll()
                 .requestMatchers("/api/news/**").permitAll()
-                .requestMatchers("/api/demo/**").permitAll() // ✅ Allow demo endpoints
+                .requestMatchers("/api/demo/**").permitAll()
                 .anyRequest().authenticated()
             );
 
@@ -56,11 +54,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of(
+            "http://localhost:5173",
+            "https://tradebridgenow.vercel.app"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
-        
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
