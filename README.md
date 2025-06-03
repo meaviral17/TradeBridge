@@ -2,18 +2,13 @@
 
 **TradeBridge** is a comprehensive, full-stack trading analysis and collaboration platform that empowers users to perform in-depth trade reviews, monitor global financial markets, and collaborate in real-time through secure virtual meeting rooms. It is purpose-built for financial analysts, traders, and investment teams to make data-driven decisions with confidence.
 
----
-
-## 🌍 Live Application
-
-* **Frontend**: [https://tradebridgenow.vercel.app](https://tradebridgenow.vercel.app)
-* **Backend**: [https://tradebridge.onrender.com](https://tradebridge.onrender.com)
+#### Live Application [https://tradebridgenow.vercel.app](https://tradebridgenow.vercel.app)
 
 ---
 
 ## 🚀 Key Features
 
-### ✅ Virtual Meeting Rooms
+#### 1. Virtual Meeting Rooms
 
 * Fully embedded **video conferencing** via [Jitsi](https://jitsi.org/)
 * Capabilities include:
@@ -23,9 +18,7 @@
   * ✍️ Whiteboard collaboration
 * Ideal for real-time team discussions or strategy reviews.
 
----
-
-### ✅ CSV-Based Trade Analyzer
+#### 2. CSV-Based Trade Analyzer
 
 Upload and analyze trade data in `.csv` format to generate a rich, visual dashboard:
 
@@ -36,9 +29,7 @@ Upload and analyze trade data in `.csv` format to generate a rich, visual dashbo
 
 > Includes support for uploading new CSVs, downloading filtered datasets, and modifying records — making it especially useful for analysts and backtesters.
 
----
-
-### ✅ Market Intelligence Dashboard
+#### 3. Market Intelligence Dashboard
 
 * **Live Market Prices** using [Twelve Data API](https://twelvedata.com/)
 * **Real-Time News Feed** from curated financial news sources
@@ -122,40 +113,3 @@ Upload and analyze trade data in `.csv` format to generate a rich, visual dashbo
 
 ---
 
-## ⚙️ Deployment
-
-### Backend (Render)
-
-* Docker-based deployment
-* Environment variables set via Render Dashboard:
-
-  ```env
-  DB_URL=...
-  DB_USER=...
-  DB_PASS=...
-  STREAM_API_KEY=...
-  STREAM_API_SECRET=...
-  STREAM_APP_ID=...
-  TWELVEDATA_API_KEY=...
-  ```
-
-### Frontend (Vercel)
-
-* `.env` for Vite build:
-
-  ```env
-  VITE_API_BASE=...
-  VITE_STREAM_API_KEY=...
-  VITE_STREAM_SECRET=...
-  ```
-
----
-
-## 📈 Potential Enhancements
-
-* Google OAuth integration
-* WebSocket support for live P\&L updates
-* AI-powered trade recommendations
-* Real-time collaborative CSV annotation
-
----
