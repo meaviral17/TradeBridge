@@ -18,6 +18,9 @@
   * ✍️ Whiteboard collaboration
 * Ideal for real-time team discussions or strategy reviews.
 
+![image](https://github.com/user-attachments/assets/15e4492d-281c-40c6-ba2e-fa067ce3fa62)
+
+
 #### 2. CSV-Based Trade Analyzer
 
 Upload and analyze trade data in `.csv` format to generate a rich, visual dashboard:
@@ -29,11 +32,15 @@ Upload and analyze trade data in `.csv` format to generate a rich, visual dashbo
 
 > Includes support for uploading new CSVs, downloading filtered datasets, and modifying records — making it especially useful for analysts and backtesters.
 
+![image](https://github.com/user-attachments/assets/ee3c9e95-15c2-4651-a1ad-6bb01d24babc)
+
 #### 3. Market Intelligence Dashboard
 
 * **Live Market Prices** using [Twelve Data API](https://twelvedata.com/)
 * **Real-Time News Feed** from curated financial news sources
 * Helps users correlate macro events with trading decisions
+  
+![image](https://github.com/user-attachments/assets/467c5d7f-2d7b-421d-973d-e9e5d5d77a20)
 
 ---
 
